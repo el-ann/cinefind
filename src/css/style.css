@@ -1,0 +1,371 @@
+/* ===== RESET & BASE ===== */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: #0D0D0D;
+  color: #FFFFFF;
+  font-family: 'Inter', sans-serif;
+  min-height: 100vh;
+}
+
+/* ===== TYPOGRAPHY ===== */
+h1,
+h2,
+h3 {
+  font-family: 'Poppins', sans-serif;
+}
+
+.section-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin: 2rem 1.5rem 1rem;
+  color: #FFFFFF;
+}
+
+/* ===== NAVIGATION ===== */
+nav {
+  background-color: #1A1A2E;
+  padding: 1rem 2rem;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+}
+
+.nav-logo {
+  font-family: 'Poppins', sans-serif;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #E94560;
+  text-decoration: none;
+}
+
+.nav-links {
+  display: flex;
+  gap: 2rem;
+  list-style: none;
+}
+
+.nav-links a {
+  color: #A0A0A0;
+  text-decoration: none;
+  font-size: 0.95rem;
+  transition: color 0.2s;
+}
+
+.nav-links a:hover {
+  color: #FFFFFF;
+}
+
+.nav-search {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.nav-search input {
+  background-color: #16213E;
+  border: 1px solid #A0A0A0;
+  border-radius: 20px;
+  padding: 0.4rem 1rem;
+  color: #FFFFFF;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.9rem;
+  width: 200px;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.nav-search input:focus {
+  border-color: #E94560;
+}
+
+.nav-search button {
+  background-color: #E94560;
+  color: #FFFFFF;
+  border: none;
+  border-radius: 20px;
+  padding: 0.4rem 1rem;
+  cursor: pointer;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.9rem;
+  transition: background-color 0.2s;
+}
+
+.nav-search button:hover {
+  background-color: #c73652;
+}
+
+/* ===== MAIN CONTENT ===== */
+main {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 1rem;
+}
+
+/* ===== CARD GRID ===== */
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: 1.5rem;
+  padding: 0 1.5rem 2rem;
+}
+
+/* ===== MOVIE CARD ===== */
+.movie-card {
+  background-color: #16213E;
+  border-radius: 12px;
+  overflow: hidden;
+  cursor: pointer;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  text-decoration: none;
+  color: inherit;
+  display: block;
+}
+
+.movie-card:hover {
+  transform: scale(1.05);
+  box-shadow: 0 8px 25px rgba(233, 69, 96, 0.3);
+}
+
+.movie-card img {
+  width: 100%;
+  aspect-ratio: 2/3;
+  object-fit: cover;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+.movie-card img.loaded {
+  opacity: 1;
+}
+
+.card-info {
+  padding: 0.75rem;
+}
+
+.card-title {
+  font-family: 'Poppins', sans-serif;
+  font-size: 0.85rem;
+  font-weight: 600;
+  margin-bottom: 0.25rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.card-rating {
+  font-size: 0.8rem;
+  color: #E94560;
+  font-weight: 500;
+}
+
+/* ===== BUTTONS ===== */
+.btn {
+  background-color: #E94560;
+  color: #FFFFFF;
+  border: none;
+  border-radius: 20px;
+  padding: 0.6rem 1.5rem;
+  cursor: pointer;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.95rem;
+  font-weight: 500;
+  transition: background-color 0.2s;
+}
+
+.btn:hover {
+  background-color: #c73652;
+}
+
+.btn-outline {
+  background-color: transparent;
+  border: 2px solid #E94560;
+  color: #E94560;
+}
+
+.btn-outline:hover {
+  background-color: #E94560;
+  color: #FFFFFF;
+}
+
+/* ===== DETAIL PAGE ===== */
+.detail-container {
+  max-width: 1000px;
+  margin: 2rem auto;
+  padding: 0 1.5rem;
+}
+
+.detail-hero {
+  display: flex;
+  gap: 2rem;
+  margin-bottom: 2rem;
+}
+
+.detail-poster {
+  width: 280px;
+  min-width: 280px;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.detail-poster img {
+  width: 100%;
+  border-radius: 12px;
+}
+
+.detail-info h1 {
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+}
+
+.detail-meta {
+  color: #A0A0A0;
+  font-size: 0.9rem;
+  margin-bottom: 1rem;
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.detail-rating {
+  color: #E94560;
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+}
+
+.detail-overview {
+  color: #A0A0A0;
+  line-height: 1.7;
+  margin-bottom: 1.5rem;
+}
+
+.detail-genres {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.genre-tag {
+  background-color: #1A1A2E;
+  border: 1px solid #E94560;
+  color: #E94560;
+  border-radius: 20px;
+  padding: 0.25rem 0.75rem;
+  font-size: 0.8rem;
+}
+
+/* ===== TRAILER ===== */
+.trailer-section {
+  margin-top: 2rem;
+}
+
+.trailer-section h2 {
+  margin-bottom: 1rem;
+}
+
+.trailer-wrapper {
+  position: relative;
+  padding-bottom: 56.25%;
+  height: 0;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.trailer-wrapper iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+
+/* ===== WATCHLIST PAGE ===== */
+.watchlist-actions {
+  display: flex;
+  gap: 1rem;
+  padding: 0 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.empty-message {
+  text-align: center;
+  color: #A0A0A0;
+  padding: 4rem 1rem;
+  font-size: 1.1rem;
+}
+
+/* ===== FOOTER ===== */
+footer {
+  background-color: #1A1A2E;
+  text-align: center;
+  padding: 1.5rem;
+  color: #A0A0A0;
+  font-size: 0.85rem;
+  margin-top: 3rem;
+}
+
+/* ===== LOADING ===== */
+.loading {
+  text-align: center;
+  padding: 3rem;
+  color: #A0A0A0;
+  font-size: 1rem;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) {
+  nav {
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+
+  .nav-links {
+    gap: 1rem;
+  }
+
+  .nav-search input {
+    width: 140px;
+  }
+
+  .card-grid {
+    grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+    gap: 1rem;
+    padding: 0 1rem 2rem;
+  }
+
+  .detail-hero {
+    flex-direction: column;
+  }
+
+  .detail-poster {
+    width: 100%;
+    min-width: unset;
+  }
+}
+
+@media (max-width: 480px) {
+  .card-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .nav-links {
+    display: none;
+  }
+}
