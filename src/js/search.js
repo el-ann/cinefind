@@ -64,7 +64,7 @@ async function performSearch(query) {
         }
 
         renderListWithTemplate(movieCardTemplate, resultsGrid, combined);
-    } catch (error) {
+    } catch {
         resultsGrid.innerHTML = `<p class="loading">Search failed. Please try again.</p>`;
     }
 }

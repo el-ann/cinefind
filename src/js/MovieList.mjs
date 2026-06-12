@@ -88,7 +88,7 @@ async function init() {
             : await getTrending(type);
 
         renderListWithTemplate(movieCardTemplate, grid, items);
-    } catch (error) {
+    } catch {
         grid.innerHTML = `<p class="loading">Failed to load content.</p>`;
     }
 }

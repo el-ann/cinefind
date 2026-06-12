@@ -46,7 +46,7 @@ async function init() {
 
     renderListWithTemplate(movieCardTemplate, moviesGrid, movies);
     renderListWithTemplate(movieCardTemplate, showsGrid, shows);
-  } catch (error) {
+  } catch {
     moviesGrid.innerHTML = `<p class="loading">Failed to load movies.</p>`;
     showsGrid.innerHTML = `<p class="loading">Failed to load shows.</p>`;
   }

@@ -172,7 +172,7 @@ async function renderDetails() {
             trailerSection.innerHTML = "";
         }
 
-    } catch (error) {
+    } catch {
         container.innerHTML = `<p class="empty-message">Failed to load details. Please try again.</p>`;
     }
 }
