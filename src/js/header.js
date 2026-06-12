@@ -1,8 +1,12 @@
-export function renderHeader() {
-    const header = document.getElementById("header");
-    const footer = document.getElementById("footer");
+// Renders the sticky navigation header and footer on every page
+// Also handles search bar interactions
 
-    header.innerHTML = `
+export function renderHeader() {
+  const header = document.getElementById("header");
+  const footer = document.getElementById("footer");
+
+  // Inject nav and footer HTML
+  header.innerHTML = `
     <nav>
       <a href="/index.html" class="nav-logo">🎬 CineFind</a>
       <ul class="nav-links">
@@ -18,27 +22,27 @@ export function renderHeader() {
     </nav>
   `;
 
-    footer.innerHTML = `
+  footer.innerHTML = `
     <footer>
       <p>© 2025 CineFind. Powered by TMDB.</p>
     </footer>
   `;
 
-    // Search button handler
-    document.getElementById("search-btn").addEventListener("click", () => {
-        const query = document.getElementById("search-input").value.trim();
-        if (query) {
-            window.location.href = `/search.html?q=${encodeURIComponent(query)}`;
-        }
-    });
+  // Navigate to search page on button click
+  document.getElementById("search-btn").addEventListener("click", () => {
+    const query = document.getElementById("search-input").value.trim();
+    if (query) {
+      window.location.href = `/search.html?q=${encodeURIComponent(query)}`;
+    }
+  });
 
-    // Enter key handler
-    document.getElementById("search-input").addEventListener("keydown", (e) => {
-        if (e.key === "Enter") {
-            const query = e.target.value.trim();
-            if (query) {
-                window.location.href = `/search.html?q=${encodeURIComponent(query)}`;
-            }
-        }
-    });
+  // Navigate to search page on Enter key press
+  document.getElementById("search-input").addEventListener("keydown", (e) => {
+    if (e.key === "Enter") {
+      const query = e.target.value.trim();
+      if (query) {
+        window.location.href = `/search.html?q=${encodeURIComponent(query)}`;
+      }
+    }
+  });
 }

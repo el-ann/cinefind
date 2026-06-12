@@ -1,17 +1,23 @@
+// Manages the watchlist page
+// Reads saved items from localStorage and handles remove and clear all actions
+
 import { renderHeader } from "./header.js";
 import { getLocalStorage, setLocalStorage, renderListWithTemplate } from "./utils.mjs";
 import { getImageUrl } from "./ExternalServices.mjs";
 
 renderHeader();
 
+// Reads the watchlist array from localStorage
 function getWatchlist() {
     return getLocalStorage("watchlist");
 }
 
+// Saves the watchlist array to localStorage
 function saveWatchlist(watchlist) {
     setLocalStorage("watchlist", watchlist);
 }
 
+// Template function for rendering a watchlist card with a remove button
 function watchlistCardTemplate(movie) {
     const title = movie.title || movie.name;
     const type = movie.media_type || "movie";
@@ -32,12 +38,14 @@ function watchlistCardTemplate(movie) {
   `;
 }
 
+// Renders the watchlist grid or an empty state message
 function renderWatchlist() {
     const grid = document.getElementById("watchlist-grid");
     const watchlist = getWatchlist();
 
     document.title = "My Watchlist — CineFind";
 
+    // Show empty state if no items saved
     if (watchlist.length === 0) {
         grid.innerHTML = `<p class="empty-message">Your watchlist is empty. Start adding movies and shows!</p>`;
         return;
@@ -45,7 +53,7 @@ function renderWatchlist() {
 
     renderListWithTemplate(watchlistCardTemplate, grid, watchlist);
 
-    // Remove individual items
+    // Attach remove button listeners after rendering
     grid.querySelectorAll(".btn-remove").forEach((btn) => {
         btn.addEventListener("click", (e) => {
             const id = parseInt(e.target.dataset.id);
@@ -56,7 +64,7 @@ function renderWatchlist() {
     });
 }
 
-// Clear all button
+// Handle clear all button click
 document.addEventListener("click", (e) => {
     if (e.target.id === "clear-watchlist") {
         saveWatchlist([]);

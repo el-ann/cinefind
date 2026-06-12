@@ -1,10 +1,13 @@
+// Handles the search page — reads query from URL, fetches results, and renders them
+// Also supports live search with debounce to limit API calls
+
 import { renderHeader } from "./header.js";
 import { searchMedia, getImageUrl } from "./ExternalServices.mjs";
-import { renderListWithTemplate } from "./utils.mjs";
-import { getParam } from "./utils.mjs";
+import { renderListWithTemplate, getParam } from "./utils.mjs";
 
 renderHeader();
 
+// Template function for rendering a search result card
 function movieCardTemplate(movie) {
     const title = movie.title || movie.name;
     const type = movie.media_type || (movie.first_air_date ? "tv" : "movie");
@@ -22,6 +25,7 @@ function movieCardTemplate(movie) {
   `;
 }
 
+// Delays a function call until the user stops typing
 function debounce(fn, delay) {
     let timeout;
     return (...args) => {
@@ -30,6 +34,8 @@ function debounce(fn, delay) {
     };
 }
 
+// Fetches and renders search results for a given query
+// Searches both movies and TV shows and combines results by popularity
 async function performSearch(query) {
     const resultsGrid = document.getElementById("results-grid");
     const searchTitle = document.getElementById("search-title");
@@ -41,11 +47,13 @@ async function performSearch(query) {
     resultsGrid.innerHTML = `<p class="loading">Searching...</p>`;
 
     try {
+        // Search movies and TV shows simultaneously
         const [movies, shows] = await Promise.all([
             searchMedia(query, "movie"),
             searchMedia(query, "tv"),
         ]);
 
+        // Combine and sort by popularity
         const combined = [...movies, ...shows].sort(
             (a, b) => b.popularity - a.popularity
         );
@@ -61,7 +69,7 @@ async function performSearch(query) {
     }
 }
 
-// Run search from URL parameter on page load
+// On page load, run search if query exists in URL
 const query = getParam("q");
 if (query) {
     const searchInput = document.getElementById("search-input");
@@ -69,7 +77,7 @@ if (query) {
     performSearch(query);
 }
 
-// Live search as user types
+// Live search as user types — debounced to 400ms
 const debouncedSearch = debounce((q) => performSearch(q), 400);
 
 document.addEventListener("input", (e) => {

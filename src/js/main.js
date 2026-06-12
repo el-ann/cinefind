@@ -1,9 +1,14 @@
+// Entry point for the homepage
+// Fetches and displays trending movies and TV shows
+
 import { renderHeader } from "./header.js";
 import { getTrending, getImageUrl } from "./ExternalServices.mjs";
 import { renderListWithTemplate } from "./utils.mjs";
 
+// Render the header and footer on the homepage
 renderHeader();
 
+// Template function that generates HTML for a single movie/show card
 function movieCardTemplate(movie) {
   const title = movie.title || movie.name;
   const type = movie.media_type || "movie";
@@ -21,16 +26,19 @@ function movieCardTemplate(movie) {
   `;
 }
 
+// Fetches trending movies and TV shows and renders them on the homepage
 async function init() {
   document.title = "Trending — CineFind";
 
   const moviesGrid = document.getElementById("movies-grid");
   const showsGrid = document.getElementById("shows-grid");
 
+  // Show loading state while data is being fetched
   moviesGrid.innerHTML = `<p class="loading">Loading...</p>`;
   showsGrid.innerHTML = `<p class="loading">Loading...</p>`;
 
   try {
+    // Fetch both trending movies and TV shows in parallel
     const [movies, shows] = await Promise.all([
       getTrending("movie"),
       getTrending("tv"),

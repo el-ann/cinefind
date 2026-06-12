@@ -1,21 +1,28 @@
+// Handles the detail page for a single movie or TV show
+// Fetches full details, renders cast, embeds trailer, and manages watchlist toggle
+
 import { renderHeader } from "./header.js";
 import { getDetails, getTrailerKey, getImageUrl, getYouTubeTrailer } from "./ExternalServices.mjs";
 import { getParam, getLocalStorage, setLocalStorage } from "./utils.mjs";
 
 renderHeader();
 
+// Reads the current watchlist from localStorage
 function getWatchlist() {
     return getLocalStorage("watchlist");
 }
 
+// Saves the updated watchlist to localStorage
 function saveWatchlist(watchlist) {
     setLocalStorage("watchlist", watchlist);
 }
 
+// Checks if a movie/show is already in the watchlist by ID
 function isInWatchlist(id) {
     return getWatchlist().some((item) => item.id === id);
 }
 
+// Adds or removes an item from the watchlist
 function toggleWatchlist(movie) {
     let watchlist = getWatchlist();
     if (isInWatchlist(movie.id)) {
@@ -26,6 +33,7 @@ function toggleWatchlist(movie) {
     saveWatchlist(watchlist);
 }
 
+// Updates the watchlist button text and style based on current state
 function updateWatchlistButton(btn, id) {
     if (isInWatchlist(id)) {
         btn.textContent = "✓ In Watchlist";
@@ -36,6 +44,7 @@ function updateWatchlistButton(btn, id) {
     }
 }
 
+// Main function — fetches and renders the full detail view
 async function renderDetails() {
     const id = getParam("id");
     const type = getParam("type") || "movie";
@@ -51,6 +60,7 @@ async function renderDetails() {
     try {
         const item = await getDetails(id, type);
 
+        // Extract all needed fields with fallbacks
         const title = item.title || item.name;
         const poster = getImageUrl(item.poster_path);
         const backdrop = item.backdrop_path
@@ -64,10 +74,13 @@ async function renderDetails() {
                 ? `${item.episode_run_time[0]} min/ep`
                 : "";
         const genres = item.genres || [];
+
+        // Only show first 6 cast members
         const cast = item.credits?.cast?.slice(0, 6) || [];
 
         document.title = `${title} — CineFind`;
 
+        // Object to store in watchlist
         const watchlistItem = {
             id: item.id,
             title,
@@ -77,6 +90,7 @@ async function renderDetails() {
             media_type: type,
         };
 
+        // Render the full detail page HTML
         container.innerHTML = `
       ${backdrop ? `<div class="detail-backdrop" style="background-image: url('${backdrop}')"></div>` : ""}
       <div class="detail-container">
@@ -120,7 +134,7 @@ async function renderDetails() {
       </div>
     `;
 
-        // Watchlist button
+        // Set up watchlist button
         const btn = document.getElementById("watchlist-btn");
         updateWatchlistButton(btn, item.id);
         btn.addEventListener("click", () => {
@@ -128,18 +142,20 @@ async function renderDetails() {
             updateWatchlistButton(btn, item.id);
         });
 
-        // Load trailer — try TMDB first, fall back to YouTube API
+        // Try TMDB trailer first, fall back to YouTube Data API
         const cacheKey = `trailer_${type}_${id}`;
         let trailerKey = localStorage.getItem(cacheKey);
 
         if (!trailerKey) {
             trailerKey = await getTrailerKey(id, type);
             if (!trailerKey) {
+                // Fallback: search YouTube Data API for official trailer
                 trailerKey = await getYouTubeTrailer(title);
             }
             if (trailerKey) localStorage.setItem(cacheKey, trailerKey);
         }
 
+        // Render trailer embed or hide section if no trailer found
         const trailerSection = document.getElementById("trailer-section");
         if (trailerKey) {
             trailerSection.innerHTML = `

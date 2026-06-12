@@ -1,9 +1,13 @@
+// Handles the browse page — displays movies or TV shows filtered by genre
+// Also renders the genre filter buttons
+
 import { renderHeader } from "./header.js";
 import { getGenres, getByGenre, getTrending, getImageUrl } from "./ExternalServices.mjs";
 import { renderListWithTemplate, getParam } from "./utils.mjs";
 
 renderHeader();
 
+// Template function for rendering a movie or TV show card
 function movieCardTemplate(movie) {
     const title = movie.title || movie.name;
     const type = movie.media_type || (movie.first_air_date ? "tv" : "movie");
@@ -21,6 +25,8 @@ function movieCardTemplate(movie) {
   `;
 }
 
+// Fetches genres from TMDB and renders filter buttons
+// Highlights the currently active genre
 async function renderGenreButtons(type, activeGenreId) {
     const container = document.getElementById("genre-filters");
     if (!container) return;
@@ -34,6 +40,7 @@ async function renderGenreButtons(type, activeGenreId) {
     `).join("")}
   `;
 
+    // Update URL params when a genre button is clicked
     container.querySelectorAll(".genre-btn").forEach((btn) => {
         btn.addEventListener("click", () => {
             const genreId = btn.dataset.id;
@@ -50,12 +57,14 @@ async function renderGenreButtons(type, activeGenreId) {
     });
 }
 
+// Main init function — reads URL params and loads the appropriate content
 async function init() {
     const type = getParam("type") || "movie";
     const genreId = getParam("genre");
     const genreName = getParam("name");
     const grid = document.getElementById("movies-grid");
 
+    // Update page title dynamically based on selected genre and type
     document.title = genreName
         ? `${genreName} — CineFind`
         : type === "tv"
@@ -69,9 +78,11 @@ async function init() {
 
     grid.innerHTML = `<p class="loading">Loading...</p>`;
 
+    // Render genre filter buttons
     await renderGenreButtons(type, genreId);
 
     try {
+        // Fetch by genre if selected, otherwise fetch trending
         const items = genreId
             ? await getByGenre(genreId, type)
             : await getTrending(type);
