@@ -15,15 +15,10 @@ const options = {
 
 // Generic fetch wrapper with error handling
 async function fetchData(url) {
-    try {
-        const response = await fetch(url, options);
-        if (!response.ok) throw new Error(`HTTP error: ${response.status}`);
-        const data = await response.json();
-        return data;
-    } catch (error) {
-        console.error("Fetch error:", error);
-        throw error;
-    }
+    const response = await fetch(url, options);
+    if (!response.ok) throw new Error(`HTTP error: ${response.status}`);
+    const data = await response.json();
+    return data;
 }
 
 // Returns full image URL or placeholder if path is missing
@@ -90,8 +85,7 @@ export async function getYouTubeTrailer(query) {
         const videoId = data.items?.[0]?.id?.videoId || null;
         if (videoId) localStorage.setItem(`yt_${query}`, videoId);
         return videoId;
-    } catch (error) {
-        console.error("YouTube fetch error:", error);
+    } catch {
         return null;
     }
 }
