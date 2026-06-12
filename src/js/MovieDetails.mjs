@@ -1,5 +1,5 @@
 import { renderHeader } from "./header.js";
-import { getDetails, getTrailerKey, getImageUrl } from "./ExternalServices.mjs";
+import { getDetails, getTrailerKey, getImageUrl, getYouTubeTrailer } from "./ExternalServices.mjs";
 import { getParam, getLocalStorage, setLocalStorage } from "./utils.mjs";
 
 renderHeader();
@@ -128,12 +128,15 @@ async function renderDetails() {
             updateWatchlistButton(btn, item.id);
         });
 
-        // Load trailer
+        // Load trailer — try TMDB first, fall back to YouTube API
         const cacheKey = `trailer_${type}_${id}`;
         let trailerKey = localStorage.getItem(cacheKey);
 
         if (!trailerKey) {
             trailerKey = await getTrailerKey(id, type);
+            if (!trailerKey) {
+                trailerKey = await getYouTubeTrailer(title);
+            }
             if (trailerKey) localStorage.setItem(cacheKey, trailerKey);
         }
 

@@ -62,3 +62,23 @@ export async function getByGenre(genreId, type = "movie") {
     );
     return data.results;
 }
+
+export async function getYouTubeTrailer(query) {
+    const cached = localStorage.getItem(`yt_${query}`);
+    if (cached) return cached;
+
+    const key = import.meta.env.VITE_YOUTUBE_KEY;
+    const url = `https://www.googleapis.com/youtube/v3/search?part=snippet&q=${encodeURIComponent(query + " official trailer")}&type=video&maxResults=1&key=${key}`;
+
+    try {
+        const response = await fetch(url);
+        if (!response.ok) throw new Error(`YouTube API error: ${response.status}`);
+        const data = await response.json();
+        const videoId = data.items?.[0]?.id?.videoId || null;
+        if (videoId) localStorage.setItem(`yt_${query}`, videoId);
+        return videoId;
+    } catch (error) {
+        console.error("YouTube fetch error:", error);
+        return null;
+    }
+}
