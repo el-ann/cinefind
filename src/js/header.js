@@ -7,6 +7,8 @@ export function renderHeader() {
       <a href="/index.html" class="nav-logo">🎬 CineFind</a>
       <ul class="nav-links">
         <li><a href="/index.html">Home</a></li>
+        <li><a href="/browse.html?type=movie">Movies</a></li>
+        <li><a href="/browse.html?type=tv">TV Shows</a></li>
         <li><a href="/watchlist.html">Watchlist</a></li>
       </ul>
       <div class="nav-search">

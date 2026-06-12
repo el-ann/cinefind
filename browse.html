@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>My Watchlist — CineFind</title>
+    <title>Browse — CineFind</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -17,17 +17,15 @@
     <div id="header"></div>
 
     <main>
-        <section id="watchlist-section">
-            <div class="watchlist-actions">
-                <h2 class="section-title">My Watchlist</h2>
-                <button class="btn btn-outline" id="clear-watchlist">Clear All</button>
-            </div>
-            <div class="card-grid" id="watchlist-grid"></div>
+        <section>
+            <h2 class="section-title" id="page-title">Movies</h2>
+            <div class="genre-filter-bar" id="genre-filters"></div>
+            <div class="card-grid" id="movies-grid"></div>
         </section>
     </main>
 
     <div id="footer"></div>
-    <script type="module" src="/src/js/Watchlist.mjs"></script>
+    <script type="module" src="/src/js/MovieList.mjs"></script>
 </body>
 
 </html>
